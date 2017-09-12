@@ -48,7 +48,7 @@ EntityItemProperties PolyLineEntityItem::getProperties(EntityPropertyFlags desir
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(lineWidth, getLineWidth);
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(linePoints, getLinePoints);
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(normals, getNormals);
-    COPY_ENTITY_PROPERTY_TO_PROPERTIES(strokeColors, getStrokeColors);
+    //COPY_ENTITY_PROPERTY_TO_PROPERTIES(strokeColors, getStrokeColors);
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(strokeWidths, getStrokeWidths);
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(textures, getTextures);
     COPY_ENTITY_PROPERTY_TO_PROPERTIES(isUVModeStretch, getIsUVModeStretch);
@@ -64,7 +64,7 @@ bool PolyLineEntityItem::setProperties(const EntityItemProperties& properties) {
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(lineWidth, setLineWidth);
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(linePoints, setLinePoints);
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(normals, setNormals);
-    SET_ENTITY_PROPERTY_FROM_PROPERTIES(strokeColors, setStrokeColors);
+    //SET_ENTITY_PROPERTY_FROM_PROPERTIES(strokeColors, setStrokeColors);
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(strokeWidths, setStrokeWidths);
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(textures, setTextures);
     SET_ENTITY_PROPERTY_FROM_PROPERTIES(isUVModeStretch, setIsUVModeStretch);
@@ -114,13 +114,13 @@ bool PolyLineEntityItem::setNormals(const QVector<glm::vec3>& normals) {
     return true;
 }
 
-bool PolyLineEntityItem::setStrokeColors(const QVector<glm::vec3>& strokeColors) {
-    withWriteLock([&] {
-        _strokeColors = strokeColors;
-        _strokeColorsChanged = true;
-    });
-    return true;
-}
+//bool PolyLineEntityItem::setStrokeColors(const QVector<glm::vec3>& strokeColors) {
+//    withWriteLock([&] {
+//        _strokeColors = strokeColors;
+//        _strokeColorsChanged = true;
+//    });
+//    return true;
+//}
 
 
 bool PolyLineEntityItem::setLinePoints(const QVector<glm::vec3>& points) {
@@ -208,7 +208,7 @@ int PolyLineEntityItem::readEntitySubclassDataFromBuffer(const unsigned char* da
     READ_ENTITY_PROPERTY(PROP_LINE_WIDTH, float, setLineWidth);
     READ_ENTITY_PROPERTY(PROP_LINE_POINTS, QVector<glm::vec3>, setLinePoints);
     READ_ENTITY_PROPERTY(PROP_NORMALS, QVector<glm::vec3>, setNormals);
-    READ_ENTITY_PROPERTY(PROP_STROKE_COLORS, QVector<glm::vec3>, setStrokeColors);
+    //READ_ENTITY_PROPERTY(PROP_STROKE_COLORS, QVector<glm::vec3>, setStrokeColors);
     READ_ENTITY_PROPERTY(PROP_STROKE_WIDTHS, QVector<float>, setStrokeWidths);
     READ_ENTITY_PROPERTY(PROP_TEXTURES, QString, setTextures);
     READ_ENTITY_PROPERTY(PROP_IS_UV_MODE_STRETCH, bool, setIsUVModeStretch);
@@ -224,7 +224,7 @@ EntityPropertyFlags PolyLineEntityItem::getEntityProperties(EncodeBitstreamParam
     requestedProperties += PROP_LINE_WIDTH;
     requestedProperties += PROP_LINE_POINTS;
     requestedProperties += PROP_NORMALS;
-    requestedProperties += PROP_STROKE_COLORS;
+    //requestedProperties += PROP_STROKE_COLORS;
     requestedProperties += PROP_STROKE_WIDTHS;
     requestedProperties += PROP_TEXTURES;
     requestedProperties += PROP_IS_UV_MODE_STRETCH;
@@ -246,7 +246,7 @@ void PolyLineEntityItem::appendSubclassData(OctreePacketData* packetData, Encode
     APPEND_ENTITY_PROPERTY(PROP_LINE_WIDTH, getLineWidth());
     APPEND_ENTITY_PROPERTY(PROP_LINE_POINTS, getLinePoints());
     APPEND_ENTITY_PROPERTY(PROP_NORMALS, getNormals());
-    APPEND_ENTITY_PROPERTY(PROP_STROKE_COLORS, getStrokeColors());
+    //APPEND_ENTITY_PROPERTY(PROP_STROKE_COLORS, getStrokeColors());
     APPEND_ENTITY_PROPERTY(PROP_STROKE_WIDTHS, getStrokeWidths());
     APPEND_ENTITY_PROPERTY(PROP_TEXTURES, getTextures());
     APPEND_ENTITY_PROPERTY(PROP_IS_UV_MODE_STRETCH, getIsUVModeStretch());
@@ -279,13 +279,13 @@ QVector<glm::vec3> PolyLineEntityItem::getNormals() const {
     return result;
 }
 
-QVector<glm::vec3> PolyLineEntityItem::getStrokeColors() const {
-    QVector<glm::vec3> result;
-    withReadLock([&] {
-        result = _strokeColors;
-    });
-    return result;
-}
+//QVector<glm::vec3> PolyLineEntityItem::getStrokeColors() const {
+//    QVector<glm::vec3> result;
+//    withReadLock([&] {
+//        result = _strokeColors;
+//    });
+//    return result;
+//}
 
 QVector<float> PolyLineEntityItem::getStrokeWidths() const { 
     QVector<float> result;

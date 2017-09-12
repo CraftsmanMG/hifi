@@ -64,8 +64,8 @@ class PolyLineEntityItem : public EntityItem {
     bool setNormals(const QVector<glm::vec3>& normals);
     QVector<glm::vec3> getNormals() const;
 
-    bool setStrokeColors(const QVector<glm::vec3>& strokeColors);
-    QVector<glm::vec3> getStrokeColors() const;
+    //bool setStrokeColors(const QVector<glm::vec3>& strokeColors);
+    //QVector<glm::vec3> getStrokeColors() const;
 
     bool setStrokeWidths(const QVector<float>& strokeWidths);
     QVector<float> getStrokeWidths() const;
@@ -82,11 +82,11 @@ class PolyLineEntityItem : public EntityItem {
 
     bool pointsChanged() const { return _pointsChanged; } 
     bool normalsChanged() const { return _normalsChanged; }
-    bool strokeColorsChanged() const { return _strokeColorsChanged; }
+    //bool strokeColorsChanged() const { return _strokeColorsChanged; }
     bool strokeWidthsChanged() const { return _strokeWidthsChanged; }
     bool texturesChanged() const { return _texturesChangedFlag; }
     void resetTexturesChanged() { _texturesChangedFlag = false; }
-    void resetPolyLineChanged() { _strokeColorsChanged = _strokeWidthsChanged = _normalsChanged = _pointsChanged = false; }
+    void resetPolyLineChanged() { /*_strokeColorsChanged = */_strokeWidthsChanged = _normalsChanged = _pointsChanged = false; }
 
 
     // never have a ray intersection pick a PolyLineEntityItem.
@@ -112,11 +112,11 @@ private:
     float _lineWidth { DEFAULT_LINE_WIDTH };
     bool _pointsChanged { true };
     bool _normalsChanged { true };
-    bool _strokeColorsChanged { true };
+    //bool _strokeColorsChanged { true };
     bool _strokeWidthsChanged { true };
     QVector<glm::vec3> _points;
     QVector<glm::vec3> _normals;
-    QVector<glm::vec3> _strokeColors;
+    //QVector<glm::vec3> _strokeColors;
     QVector<float> _strokeWidths;
     QString _textures;
     bool _isUVModeStretch;

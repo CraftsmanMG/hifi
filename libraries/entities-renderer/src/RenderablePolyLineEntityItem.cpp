@@ -117,8 +117,8 @@ bool PolyLineEntityRenderer::needsRenderUpdateFromTypedEntity(const TypedEntityP
         entity->pointsChanged() ||
         entity->strokeWidthsChanged() ||
         entity->normalsChanged() ||
-        entity->texturesChanged() ||
-        entity->strokeColorsChanged()
+        entity->texturesChanged()// ||
+        //entity->strokeColorsChanged()
     );
 }
 
@@ -140,7 +140,7 @@ void PolyLineEntityRenderer::doRenderUpdateAsynchronousTyped(const TypedEntityPo
     auto pointsChanged = entity->pointsChanged();
     auto strokeWidthsChanged = entity->strokeWidthsChanged();
     auto normalsChanged = entity->normalsChanged();
-    auto strokeColorsChanged = entity->strokeColorsChanged();
+    //auto strokeColorsChanged = entity->strokeColorsChanged();
     bool isUVModeStretch = entity->getIsUVModeStretch();
     entity->resetPolyLineChanged();
 
@@ -153,11 +153,13 @@ void PolyLineEntityRenderer::doRenderUpdateAsynchronousTyped(const TypedEntityPo
     if (normalsChanged) {
         _lastNormals = entity->getNormals();
     }
-    if (strokeColorsChanged) {
+    /*if (strokeColorsChanged) {
         _lastStrokeColors = entity->getStrokeColors();
         _lastStrokeColors = _lastNormals.size() == _lastStrokeColors.size() ? _lastStrokeColors : QVector<glm::vec3>({ toGlm(entity->getXColor()) });
-    }
-    if (pointsChanged || strokeWidthsChanged || normalsChanged || strokeColorsChanged) {
+    }*/
+    _lastStrokeColors = QVector<glm::vec3>({ toGlm(entity->getXColor()) });
+
+    if (pointsChanged || strokeWidthsChanged || normalsChanged/* || strokeColorsChanged*/) {
         _empty = std::min(_lastPoints.size(), std::min(_lastNormals.size(), _lastStrokeWidths.size())) < 2;
         if (!_empty) {
             updateGeometry(updateVertices(_lastPoints, _lastNormals, _lastStrokeWidths, _lastStrokeColors, isUVModeStretch, _textureAspectRatio));
@@ -213,7 +215,7 @@ std::vector<PolyLineEntityRenderer::Vertex> PolyLineEntityRenderer::updateVertic
         const float& width = strokeWidths.at(i);
         const auto& point = points.at(i);
         const auto& normal = normals.at(i);
-        const auto& color = strokeColors.size() == normals.size() ? strokeColors.at(i) : strokeColors.at(0);
+        const auto& color = /*strokeColors.size() == normals.size() ? strokeColors.at(i) :*/ strokeColors.at(0);
         int vertexIndex = i * 2;
         
         //if (!isUVModeStretch && vertexIndex >= 2) {

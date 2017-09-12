@@ -33,7 +33,7 @@
         HIFI_POINTER_DISABLE_MESSAGE_CHANNEL = "Hifi-Pointer-Disable",
         SCRIPT_PATH = Script.resolvePath(''),
         CONTENT_PATH = SCRIPT_PATH.substr(0, SCRIPT_PATH.lastIndexOf('/')),
-        ANIMATION_SCRIPT_PATH = Script.resolvePath("content/animatedBrushes/animatedBrushScript.js"),
+        //ANIMATION_SCRIPT_PATH = Script.resolvePath("content/animatedBrushes/animatedBrushScript.js"),
         APP_URL = CONTENT_PATH + "/html/main.html";
 
     Script.include("../libraries/controllers.js");
@@ -55,7 +55,7 @@
                 green: _savedSettings.currentColor.green, 
                 blue: _savedSettings.currentColor.blue
             },
-            _dynamicColor = null,
+            //_dynamicColor = null,
             ERASE_SEARCH_RADIUS = 0.1,  // m
             STROKE_DIMENSIONS = { x: 10, y: 10, z: 10 },
             _isDrawingLine = false,
@@ -64,7 +64,7 @@
             _basePosition,
             _strokePoints,
             _strokeNormals,
-            _strokeColors,
+            //_strokeColors,
             _strokeWidths,
             _timeOfLastPoint,
             _isContinuousLine = _savedSettings.currentIsContinuous,
@@ -77,7 +77,7 @@
             _isUvModeStretch = _savedSettings.currentTexture.brushType == "stretch",
             MIN_STROKE_LENGTH = 0.005,  // m
             MIN_STROKE_INTERVAL = 66,  // ms
-            MAX_POINTS_PER_LINE = 35;  // Quick fix for polyline points disappearing issue.
+            MAX_POINTS_PER_LINE = 70;  // Quick fix for polyline points disappearing issue.
                 
         function calculateStrokeNormal() {
             if (!_isMouseDrawing) {
@@ -120,7 +120,7 @@
                 return;
             }
 
-            var isAnyDynamicEffectEnabled = false;
+            /*var isAnyDynamicEffectEnabled = false;
             if ("dynamicHue" in _dynamicEffects && _dynamicEffects.dynamicHue) {
                 isAnyDynamicEffectEnabled = true;
                 var hueIncrement = 359.0 / MAX_POINTS_PER_LINE;
@@ -141,21 +141,21 @@
                 //value along the full line
                 //var saturationIncrement = 1.0 / 70.0;
                 //_dynamicColor.saturation = calculateValueInRange(_dynamicColor.saturation, 0, 1, saturationIncrement);
-            } 
+            } */
 
 
-            if (!isAnyDynamicEffectEnabled) {
+            //if (!isAnyDynamicEffectEnabled) {
                 properties.color = _strokeColor;
                 return;
-            }
+            //}
 
-            var newRgbColor = hsv2rgb(_dynamicColor);
+            /*var newRgbColor = hsv2rgb(_dynamicColor);
             _strokeColors.push({
                 x: newRgbColor.red/255.0,
                 y: newRgbColor.green/255.0, 
                 z: newRgbColor.blue/255.0}
             );
-            properties.strokeColors = _strokeColors;
+            properties.strokeColors = _strokeColors;*/
         }
 
         function setDynamicEffects(dynamicEffects) {
@@ -244,7 +244,7 @@
 
             _basePosition = position;
             _strokeNormals = [calculateStrokeNormal()];
-            _strokeColors = [];
+            //_strokeColors = [];
             _strokeWidths = [width];
             _timeOfLastPoint = Date.now();
 
@@ -260,11 +260,11 @@
                 isUVModeStretch: _isUvModeStretch,
                 dimensions: STROKE_DIMENSIONS,
             };
-            _dynamicColor = rgb2hsv(_strokeColor);
+            //_dynamicColor = rgb2hsv(_strokeColor);
             attacthColorToProperties(newEntityProperties);
             _entityID = Entities.addEntity(newEntityProperties);
             _isDrawingLine = true;
-            addAnimationToBrush(_entityID);
+            //addAnimationToBrush(_entityID);
             _lastPosition = position;
         }
 
@@ -316,12 +316,12 @@
 
         function finishLine(position, width) {
             // Finish drawing polyline; delete if it has only 1 point.
-            var userData = Entities.getEntityProperties(_entityID).userData;
-            if (userData && JSON.parse(userData).animations && !_isBrushColored) {
+            //var userData = Entities.getEntityProperties(_entityID).userData;
+            /*if (userData && JSON.parse(userData).animations && !_isBrushColored) {
                 Entities.editEntity(_entityID, {
                     script: ANIMATION_SCRIPT_PATH,
                 });    
-            }
+            }*/
             width = calculateLineWidth(width);
             
             if (!_isDrawingLine) {
@@ -786,14 +786,14 @@
         _savedSettings.currentStrokeWidth = Settings.getValue("currentStrokeWidth", 0.25);
         _savedSettings.currentTexture = Settings.getValue("currentTexture", {brushID: 0});
         _savedSettings.currentDrawingHand = Settings.getValue("currentDrawingHand", MyAvatar.getDominantHand() == "left");
-        _savedSettings.currentAnimatedBrushes = Settings.getValue("currentAnimatedBrushes", []);
+        //_savedSettings.currentAnimatedBrushes = Settings.getValue("currentAnimatedBrushes", []);
         _savedSettings.customColors = Settings.getValue("customColors", []);
         _savedSettings.currentTab = Settings.getValue("currentTab", 0);
         _savedSettings.currentTriggerWidthEnabled = Settings.getValue("currentTriggerWidthEnabled", true);
-        _savedSettings.currentDynamicBrushes = Settings.getValue("currentDynamicBrushes", new Object());
+        //_savedSettings.currentDynamicBrushes = Settings.getValue("currentDynamicBrushes", new Object());
         _savedSettings.currentIsContinuous = Settings.getValue("currentIsContinuous", false);
         _savedSettings.currentIsBrushColored = Settings.getValue("currentIsBrushColored", false);
-        _savedSettings.currentHeadersCollapsedStatus = Settings.getValue("currentHeadersCollapsedStatus", new Object());
+        //_savedSettings.currentHeadersCollapsedStatus = Settings.getValue("currentHeadersCollapsedStatus", new Object());
         _savedSettings.undoDisable = _undoStack.length == 0;
         //set some global variables
         _isLeftHandDominant = _savedSettings.currentDrawingHand;
@@ -961,7 +961,7 @@
                 updateHandAnimations();
                 break;
 
-            case "switchAnimatedBrush":
+            /*case "switchAnimatedBrush":
                 var animatedBrushes = Settings.getValue("currentAnimatedBrushes", []);
                 var brushSettingsIndex = animatedBrushes.indexOf(event.animatedBrushID);
                 if (!event.enabled && brushSettingsIndex > -1) { //already exists so we are disabling it
@@ -981,7 +981,7 @@
                 Settings.setValue("currentDynamicBrushes", dynamicBrushes);
                 _rightBrush.setDynamicEffects(dynamicBrushes);
                 _leftBrush.setDynamicEffects(dynamicBrushes);
-                break;
+                break;*/
 
             case "switchIsContinuous":
                 Settings.setValue("currentIsContinuous", event.enabled);
@@ -994,7 +994,7 @@
         }
     }    
 
-    function addAnimationToBrush(entityID) {
+    /*function addAnimationToBrush(entityID) {
         Object.keys(AnimatedBrushesInfo).forEach(function(animationName) {
             if (AnimatedBrushesInfo[animationName].isEnabled) {
                 var prevUserData = Entities.getEntityProperties(entityID).userData;
@@ -1010,7 +1010,7 @@
                 Entities.editEntity(entityID, {userData: JSON.stringify(prevUserData)});    
             }
         });
-    }
+    }*/
 
     function addElementToUndoStack(item)
     {

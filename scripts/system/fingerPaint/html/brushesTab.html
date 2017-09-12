@@ -162,7 +162,12 @@
 </div>
 <div id="brushesContent">
     <div id="properties-list">
-        <fieldset class="major">
+        <div class="special-group special-brushes property checkbox">
+            <span id="continuousLineIcon" class="glyph effectPreview">&#8734;</span>
+            <input onchange="setContinuosLineMode(this)" type="checkbox" id="continuousLine"></input>
+            <label for="continuousLine">Use Continuous Line</label>
+        </div>
+        <!--<fieldset class="major">
                 <legend id="special-section" class="section-header special-group special-section">
                     Special Effects<span>M</span>
                 </legend>
@@ -204,7 +209,7 @@
         <fieldset class="major">
             <legend id="brush-section" class="section-header brushes-group brushes-section">
                 Brushes<span>M</span>
-            </legend>
+            </legend>-->
             <div id="brushesCointainer" class="brushes-group">
                 <button class="brushButton"  brushType="stretch"  id="content/brushes/square.png" onclick="changePaintBrush(0)">
                     <div class="imageContainer">
@@ -394,17 +399,17 @@
                     </div>
                     <div class="brushLabel">Softbow</div>
                 </button>
-            </fieldset>
+            <!--</fieldset>-->
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    var ANIMATED_HUE_STEP = 1;
+    //var ANIMATED_HUE_STEP = 1;
     var currentBrush = 0;
-    var colorAnimPreviewInterval = null;
-    var currentAnimationColor = {h: 0, s: 100, b: 100};
-    colorAnimPreviewInterval = setInterval(setHueAnimationColorPreview, 30);
+    //var colorAnimPreviewInterval = null;
+    //var currentAnimationColor = {h: 0, s: 100, b: 100};
+    //colorAnimPreviewInterval = setInterval(setHueAnimationColorPreview, 30);
 
     var EventBridge = parent.EventBridge;
 
@@ -463,7 +468,7 @@
         EventBridge.emitWebEvent(JSON.stringify(changedBrushEvent));
     }
 
-    function switchDynamicBrushEnabledStatus(checkbox) {
+    /*function switchDynamicBrushEnabledStatus(checkbox) {
         var isAnyAnimatedChecked = false;
         $(".animationBrush").each(function( index ) {
             isAnyAnimatedChecked |= $(this).find("input[type=checkbox]")[0].checked;
@@ -503,7 +508,7 @@
             "dynamicBrushId"  : checkbox.id
         };
         EventBridge.emitWebEvent(JSON.stringify(switchDynamicBrushEvent));
-    }
+    }*/
 
     function setContinuosLineMode(checkbox) {
         var switchContinuousDrawModeEvent = {
@@ -543,14 +548,14 @@
         $(id).css("background", "-webkit-linear-gradient(left, " + gradientStr + ")");
     }
 
-    function setHueAnimationColorPreview() {
+    /*function setHueAnimationColorPreview() {
         currentAnimationColor.h += ANIMATED_HUE_STEP;
         currentAnimationColor.h = currentAnimationColor.h > 360 
                                     ? 360 - currentAnimationColor.h 
                                     : currentAnimationColor.h;
         $("#animatedHue").css("background-color", 
             "#" + $.colpick.hsbToHex({h: currentAnimationColor.h, s: currentAnimationColor.s, b: currentAnimationColor.b}));
-    }
+    }*/
 
     function setStrokeColor(strokeColor) {
         $(".imageContainer").each(function( index ) {
@@ -585,7 +590,7 @@
             changePaintBrush(brushData.currentTexture.brushID);
         }
 
-        if ("currentAnimatedBrushes" in brushData) {
+        /*if ("currentAnimatedBrushes" in brushData) {
             var animatedBrushes = brushData.currentAnimatedBrushes;
             for (var i = 0; i < animatedBrushes.length; i++) {
                 document.getElementById(animatedBrushes[i]).checked = true;
@@ -600,7 +605,7 @@
                 document.getElementById(key).checked = brushData.currentDynamicBrushes[key];
             }
             switchAnimationBrushEnabledStatus();
-        }
+        }*/
 
         if ("currentColor" in brushData) {
             setStrokeColor(brushData.currentColor);
@@ -620,7 +625,7 @@
             document.getElementById("continuousLine").checked = brushData.currentIsContinuous;
         }
 
-        if ("currentHeadersCollapsedStatus" in brushData) {
+        /*if ("currentHeadersCollapsedStatus" in brushData) {
             for (var key in brushData.currentHeadersCollapsedStatus) {
 
                 var element = document.getElementById(key);
@@ -629,7 +634,7 @@
                     element.getElementsByTagName("span")[0].textContent ="L";
                 }
             }
-        }
+        }*/
     }
 
     window.addEventListener("message", receiveStrokeColor, false);
@@ -642,7 +647,7 @@
         setUpKeyboardControl();
 
         // Collapsible sections
-        var elCollapsible = document.getElementsByClassName("section-header");
+       /* var elCollapsible = document.getElementsByClassName("section-header");
 
         var toggleCollapsedEvent = function(event) {
             var element = event.target;
@@ -660,12 +665,12 @@
         for (var i = 0, length = elCollapsible.length; i < length; i++) {
             var element = elCollapsible[i];
             element.addEventListener("click", toggleCollapsedEvent, true);
-        };
+        };*/
     });
 
-    window.onbeforeunload = function(){
+    /*window.onbeforeunload = function(){
        clearInterval(colorAnimPreviewInterval);
-    }
+    }*/
 
 
 
